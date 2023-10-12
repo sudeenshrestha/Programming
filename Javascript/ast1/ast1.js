@@ -9,13 +9,12 @@ function animate() {
     var incrementStars = star.repeat(incrementCount);
     console.log(incrementStars);
     incrementCount++;
+    return;
   }
 
-  else if (incrementCount >= 6) {
-    var decrementStars = star.repeat(decrementCount);
-    console.log(decrementStars);
-    decrementCount--;
-  }
+  var decrementStars = star.repeat(decrementCount);
+  console.log(decrementStars);
+  decrementCount--;
 }
 
 let interval = setInterval(() => {
