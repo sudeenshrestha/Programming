@@ -1,0 +1,9 @@
+#color{
+    background-color: black;
+    border: 1px;
+    border-style: solid;
+    display: inline-block;
+    cursor: pointer;
+    margin: 10px;
+    padding: 50px;
+}
