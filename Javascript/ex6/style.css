@@ -1,0 +1,29 @@
+body{
+    margin: 8;
+}
+
+#container{
+    display: block;
+    height:500px;
+    width:500px;
+    background-color: red;
+    position: relative;
+    padding: 0px;
+    margin: 10px;
+}
+
+/* .scatterPlotData{
+    height: 20px;
+    width: 20px;
+    background-color: black;
+    position: absolute;
+
+} */
+
+/* .d1{
+    background-color: yellow;
+}
+
+.d2{
+    background-color: green;
+} */
