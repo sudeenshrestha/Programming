@@ -41,12 +41,6 @@ for (var i = 0; i < data.length; i++) {
   divC.style.background = "green";
   divC.style[key1] = value1 + "px";
   divC.style[key2] = value2 + "px";
-  for (var m = 0; m < positionKeys.length; m++) {
-    console.log([key]); //6
-    console.log(divC.style[key]); //7
-    document.getElementById("container").appendChild(divC);
-    console.log(document.getElementById("container").appendChild(divC));
-  }
 }
 
 document.getElementById("container").appendChild(div);
