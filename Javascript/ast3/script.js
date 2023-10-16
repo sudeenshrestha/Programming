@@ -10,51 +10,61 @@
 
 //////////////////////////////////////////////////////
 
-var photos = ["./img/1.jpg", "./img/2.jpg", "./img/3.jpg", "./img/4.jpg"];
+let images = ["./img/1.jpg", "./img/2.jpg", "./img/3.jpg", "./img/4.jpg"];
+
+// let currentPhotoCount = 1;
 function imgCreate() {
-  // for (let i=0; i<photos.length;i++){
   var img = document.createElement("img");
-  img.src = photos[0];
+  img.src = images[0];
   img.width = "304";
   img.height = "228";
   img.alt = "Picture";
 
   document.body.appendChild(img);
+  let currentPhotoCount = 1;
 
   const next = document.getElementById("next");
 
-  let nextPhotoCount = 1;
-
   next.addEventListener("click", function () {
-    if (nextPhotoCount === 0) {
-      img.src = photos[0];
-      nextPhotoCount++;
-
+    console.log(currentPhotoCount);
+    if (currentPhotoCount === 0) {
+      img.src = images[0];
+      currentPhotoCount++;
       return img.src;
     }
-    img.src = photos[nextPhotoCount];
-    nextPhotoCount++;
+    console.log(currentPhotoCount);
+    
+    if (currentPhotoCount>images.length){
+        currentPhotoCount === images.length-1;
+    }
+    img.src = images[currentPhotoCount];
+    console.log(img.src = images[currentPhotoCount]);
+    currentPhotoCount++;
+    console.log("finalnext", currentPhotoCount);
+    console.log(images.length);
 
-    if (nextPhotoCount === photos.length) {
-      nextPhotoCount = 0;
+    if (currentPhotoCount === images.length) {
+      currentPhotoCount = 0;
     }
   });
-  
-//   countPrevious = 1;
+
   const previous = document.getElementById("previous");
 
   previous.addEventListener("click", function () {
-    img.src = photos[nextPhotoCount - 1];
+    
+    console.log(currentPhotoCount);
+    img.src = images[currentPhotoCount-2];
     console.log(img.src);
-    console.log(nextPhotoCount);
+    console.log(currentPhotoCount);
 
-    nextPhotoCount--;
-
-    if (nextPhotoCount === 0) {
-      img.src = photos[photos.length-1];
-      return;
+    currentPhotoCount--;
+    console.log("final:", currentPhotoCount);
+    if(currentPhotoCount <2){
+        currentPhotoCount = images.length+1;
     }
-    // countPrevious = photos.length-1;
+
+    
+    // previousCount = images.length;
   });
 }
 imgCreate();
