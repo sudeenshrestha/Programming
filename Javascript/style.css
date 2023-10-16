@@ -1,0 +1,24 @@
+div{
+    padding: 10px;
+}
+
+.nav{
+  display: inline-block;
+  margin: 5px;
+}
+li{
+  margin: 5px;
+}
+
+header{
+    background-color: rgb(117, 177, 230);
+}
+
+footer{
+    background-color: rgb(117, 177, 230);
+}
+
+h4{
+    text-align: center;
+    background-color: darkgray;
+}
