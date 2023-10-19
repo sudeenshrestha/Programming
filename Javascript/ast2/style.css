@@ -6,16 +6,10 @@ html,body{
     display: block;
     height:500px;
     width:500px;
-    background-color: red;
+    background-color: white;
+    border: 1px solid red;
     position: relative;
     padding: 0px;
     margin: 10px;
-}
-
-#eg{
-    display: block;
-    height: 200px;
-    width: 200px;
-    background-color: purple;
-
+    cursor: pointer;
 }
