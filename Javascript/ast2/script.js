@@ -26,6 +26,7 @@ function positionKey(posKey) {
 }
 
 let data = [];
+
 function generateAnts(noOfAnts, xvalue, yvalue) {}
 for (var index = 0; index < noOfAnts; index++) {
   let posX = positionKey(posKey);
@@ -34,18 +35,12 @@ for (var index = 0; index < noOfAnts; index++) {
   if (posX !== posY){
   var xvalue = randomValue(1, 200);
   var yvalue = randomValue(1, 200);
-  console.log("posX", posX, "posY", posY);
+  // console.log("posX", posX, "posY", posY);
 
   data.push({ [posX]: xvalue, [posY]: yvalue });
   }
 }
-console.log(data);
-
-let datas = {
-  numAnts: 10,
-  posnX: 10,
-  posnY: 10,
-};
+// console.log(data);
 
 var antsInBox = [];
 let smashedAnts = [];
@@ -91,11 +86,19 @@ for (a = 0; a < antsInBox.length; a++) {
   // console.log(antsInBox[a])
 }
 
-// function removeAnts(){
+function ding() {
+  var sound = document.querySelector('#audio');  
+  sound.play();
+  setTimeout(() => {
+    sound.pause();
+    sound.currentTime = 0;
+  }, 1000);
+};
 
 const ants = document.getElementsByClassName("ant");
 // console.log(ants)
 for (let Ant of ants) {
+  Ant.addEventListener("click",ding);
   Ant.addEventListener("click", (event) => {
     event.target.remove();
     let smashedAnt = event.target.id;
@@ -109,3 +112,4 @@ for (let Ant of ants) {
     // console.log("this is within loop", smashedAnts);
   });
 }
+
