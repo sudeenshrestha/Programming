@@ -2,23 +2,53 @@
 
 //2.1
 
-var data = [
-  { top: 100, left: 50 },
-  { bottom: 100, top: 200 },
-  { bottom: 100, left: 60 },
-  { bottom: 10, left: 60 },
-  { top: 40, right: 80 },
-  { top: 10, right: 6 },
-  { bottom: 50, right: 30 },
-  { bottom: 100, right: 80 },
-];
+function randomValue(lowerBound, upperBound) {
+  var randomNumber = Math.random();
+  randomNumber = randomNumber * upperBound;
+  randomNumber = Math.floor(randomNumber) + lowerBound;
+  return randomNumber;
+}
+
+var noOfAnts = randomValue(1, 20);
+
+console.log(noOfAnts);
+defaultNoOfAnts = 10;
+if (noOfAnts < defaultNoOfAnts) {
+  noOfAnts = defaultNoOfAnts;
+} else {
+  noOfAnts = noOfAnts;
+}
+
+var posKey = ["top", "bottom", "left", "right"];
+
+function positionKey(posKey) {
+  return posKey[Math.floor(Math.random() * posKey.length)];
+}
+
+let data = [];
+function generateAnts(noOfAnts, xvalue, yvalue) {}
+for (var index = 0; index < noOfAnts; index++) {
+  let posX = positionKey(posKey);
+  let posY = positionKey(posKey);
+
+  if (posX !== posY){
+  var xvalue = randomValue(1, 200);
+  var yvalue = randomValue(1, 200);
+  console.log("posX", posX, "posY", posY);
+
+  data.push({ [posX]: xvalue, [posY]: yvalue });
+  }
+}
+console.log(data);
 
 let datas = {
-  numAnts: 10, 
-  posnX: 10, 
-  posnY: 10
-}
+  numAnts: 10,
+  posnX: 10,
+  posnY: 10,
+};
+
 var antsInBox = [];
+let smashedAnts = [];
 
 function createScatterPlot() {
   for (var index = 0; index < data.length; index++) {
@@ -34,7 +64,7 @@ function createScatterPlot() {
       var key = keys[i];
       var value = posXY[key];
       ant.style[key] = value + "px";
-      ant.id = "ant"+(index+1);
+      ant.id = "ant" + (index + 1);
       ant.classList.add("ant");
       // console.log(key);
       // console.log(value);
@@ -52,41 +82,30 @@ function createScatterPlot() {
 
     var numOfAnts = container.appendChild(ant);
     antsInBox.push(numOfAnts);
-
-    console.log("...................................");
-
   }
 }
 
 createScatterPlot();
 
-for (a=0;a<antsInBox.length;a++){
+for (a = 0; a < antsInBox.length; a++) {
   // console.log(antsInBox[a])
 }
 
 // function removeAnts(){
-  let smashedAnts = [];
-const ants = document.getElementsByClassName('ant');;
+
+const ants = document.getElementsByClassName("ant");
 // console.log(ants)
-let antss = function(){
-for (let Ant of ants){
-  Ant.addEventListener('click', (event) => {
+for (let Ant of ants) {
+  Ant.addEventListener("click", (event) => {
     event.target.remove();
     let smashedAnt = event.target.id;
-    console.log("hello",smashedAnt);
+    // console.log("hello", smashedAnt);
     smashedAnts.push(smashedAnt);
-    console.log("this is within loop", smashedAnts);
+    let uList = document.getElementById("smashedAntsList");
+    let li = document.createElement("li");
+    li.innerText = smashedAnt;
+    uList.appendChild(li);
+    // li.style.display = "block";
+    // console.log("this is within loop", smashedAnts);
   });
-};
 }
-antss();
-
-console.log("this is outside loop", smashedAnts);
-    let uList = document.getElementById('smashedAntsList');
-
-    for (l=0;l<smashedAnts.length;l++){
-      let li = document.createElement('li');
-      li.innerText = "ant"+(l+1);
-      uList.appendChild(li);
-    };
-
