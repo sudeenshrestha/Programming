@@ -1,5 +1,6 @@
 html,body{
     margin: 8px;
+    background-color: slateblue;
 
 }
 
@@ -12,11 +13,33 @@ html,body{
     position: relative;
     padding: 0px;
     margin: 10px;
-    cursor: pointer;
+    /* cursor: crosshair; */
+    cursor: url('hammer2.jpg'), crosshair;
 }
 
 #Wrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.nav{
+  display: inline-block;
+  margin: 5px;
+}
+li{
+  margin: 5px;
+}
+
+header{
+    background-color: rgb(117, 177, 230);
+}
+
+footer{
+    background-color: rgb(117, 177, 230);
+}
+
+h4{
+    text-align: center;
+    background-color: darkgray;
 }

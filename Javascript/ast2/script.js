@@ -9,10 +9,10 @@ function randomValue(lowerBound, upperBound) {
   return randomNumber;
 }
 
-var noOfAnts = randomValue(1, 20);
+var noOfAnts = randomValue(1, 30);
 
 console.log(noOfAnts);
-defaultNoOfAnts = 10;
+defaultNoOfAnts = 20;
 if (noOfAnts < defaultNoOfAnts) {
   noOfAnts = defaultNoOfAnts;
 } else {
@@ -82,9 +82,12 @@ function createScatterPlot() {
 
 createScatterPlot();
 
-for (a = 0; a < antsInBox.length; a++) {
-  // console.log(antsInBox[a])
+const refreshButton = document.querySelector('#refresh');
+
+const refreshPage = () => {
+  location.reload();
 }
+refreshButton.addEventListener('click', refreshPage)
 
 function ding() {
   var sound = document.querySelector('#audio');  
@@ -92,7 +95,7 @@ function ding() {
   setTimeout(() => {
     sound.pause();
     sound.currentTime = 0;
-  }, 1000);
+  }, 500);
 };
 
 const ants = document.getElementsByClassName("ant");
