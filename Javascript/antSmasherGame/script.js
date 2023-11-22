@@ -127,10 +127,12 @@ function antClick(event) {
   
   //  Dark Mode Toggle
 document.getElementById("toggle").addEventListener("change", function () {
+  antsInBox.forEach((ant)=> {
   if (this.checked) {
     document.documentElement.classList.add("dark");
     ant.style.backgroundImage = "url('assets/ant2.jpg')";
   } else {
     document.documentElement.classList.remove("dark");
   }
+})
 });
