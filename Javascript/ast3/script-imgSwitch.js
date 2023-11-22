@@ -14,7 +14,8 @@ let imageIndex = 0;
 function imgCreate() {
   var img = document.createElement("img");
   img.src = images[0];
-  img.width = "350";
+  img.width = "304";
+  img.height = "228";
   img.alt = "Picture";
   img.classList.add("myImg");
   

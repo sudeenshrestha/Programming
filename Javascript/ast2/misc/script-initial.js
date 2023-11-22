@@ -2,45 +2,41 @@
 
 //2.1
 
-function randomValue(lowerBound, upperBound) {
+function randomValue(lowerBound, upperBound){
   var randomNumber = Math.random();
-  randomNumber = randomNumber * upperBound;
-  randomNumber = Math.floor(randomNumber) + lowerBound;
+  randomNumber = randomNumber*upperBound;
+  randomNumber = Math.floor(randomNumber)+lowerBound;
   return randomNumber;
 }
 
-var noOfAnts = randomValue(1, 30);
-
-console.log(noOfAnts);
-defaultNoOfAnts = 20;
-if (noOfAnts < defaultNoOfAnts) {
-  noOfAnts = defaultNoOfAnts;
-} else {
-  noOfAnts = noOfAnts;
+var noOfAnts = randomValue(1,8);
+defaultNoOfAnts = 5;
+if (noOfAnts < defaultNoOfAnts){
+  console.log(defaultNoOfAnts);
+}else{
+  console.log(noOfAnts);
 }
 
-var posKey = ["top", "bottom", "left", "right"];
+var posKey = ['top', 'bottom', 'left', 'right'];
+var posValue = randomValue(1,200);
+console.log(posKey);
+console.log(posValue);
+var data = [
+  { top: 100, left: 50 },
+  { bottom: 100, top: 200 },
+  { bottom: 100, left: 60 },
+  { bottom: 10, left: 60 },
+  { top: 40, right: 80 },
+  { top: 10, right: 6 },
+  { bottom: 50, right: 30 },
+  { bottom: 100, right: 80 },
+];
 
-function positionKey(posKey) {
-  return posKey[Math.floor(Math.random() * posKey.length)];
-}
-
-let data = [];
-
-function generateAnts(noOfAnts, xvalue, yvalue) {
-for (var index = 0; index < noOfAnts; index++) {
-  let posX = positionKey(posKey);
-  let posY = positionKey(posKey);
-
-  if (posX !== posY){
-  var xvalue = randomValue(1, 200);
-  var yvalue = randomValue(1, 200);
-  // console.log("posX", posX, "posY", posY);
-
-  data.push({ [posX]: xvalue, [posY]: yvalue });
-  }
-}}
-// console.log(data);
+let datas = {
+  numAnts: 10,
+  posnX: 10,
+  posnY: 10,
+};
 
 var antsInBox = [];
 let smashedAnts = [];
@@ -77,41 +73,20 @@ function createScatterPlot() {
 
     var numOfAnts = container.appendChild(ant);
     antsInBox.push(numOfAnts);
-    console.log(antsInBox);
   }
 }
 
 createScatterPlot();
 
-//-------------------------------------------------------
-// const refreshButton = document.querySelector('#refresh');
-
-// const refreshPage = () => {
-//   location.reload();
-// }
-// refreshButton.addEventListener('click', refreshPage)
-// -------------------------------------------------------
-
-const refreshButton = document.querySelector('#refresh');
-
-const refreshPage = () => {
-  refresh();
+for (a = 0; a < antsInBox.length; a++) {
+  // console.log(antsInBox[a])
 }
-refreshButton.addEventListener('click', refreshPage)
 
-function ding() {
-  var sound = document.querySelector('#audio');  
-  sound.play();
-  setTimeout(() => {
-    sound.pause();
-    sound.currentTime = 0;
-  }, 500);
-};
+// function removeAnts(){
 
 const ants = document.getElementsByClassName("ant");
 // console.log(ants)
 for (let Ant of ants) {
-  Ant.addEventListener("click",ding);
   Ant.addEventListener("click", (event) => {
     event.target.remove();
     let smashedAnt = event.target.id;
@@ -125,4 +100,3 @@ for (let Ant of ants) {
     // console.log("this is within loop", smashedAnts);
   });
 }
-
