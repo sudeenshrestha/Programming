@@ -1,12 +1,3 @@
-//  Dark Mode Toggle
-document.getElementById("toggle").addEventListener("change", function () {
-  if (this.checked) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-});
-
 //AST2: Ant Smasher Game
 
 //Random Value Generator
@@ -121,3 +112,13 @@ function antClick(event) {
     listItem.innerText = smashedAntId;
     smashedAntsList.appendChild(listItem);
   };
+
+  //  Dark Mode Toggle
+document.getElementById("toggle").addEventListener("change", function () {
+  if (this.checked) {
+    document.documentElement.classList.add("dark");
+    ant.style.backgroundImage = "url('assets/ant2.jpg')";
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+});
