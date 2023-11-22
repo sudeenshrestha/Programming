@@ -15,7 +15,7 @@ let numberOfAnts = getRandomInt(1, 30);
 
 // console.log(numberOfAnts);
 
-defaultNumberOfAnts = 5;
+defaultNumberOfAnts = 10;
 if (numberOfAnts < defaultNumberOfAnts) {
   numberOfAnts = defaultNumberOfAnts;
   // console.log(numberOfAnts);
@@ -29,6 +29,8 @@ if (numberOfAnts < defaultNumberOfAnts) {
 let antData = [];
 let antsInBox = [];
 let smashedAnts = [];
+
+const html = document.documentElement;
 const antContainer = document.getElementById("container");
 let smashedAntsList = document.getElementById("smashedAntsList");
 const possiblePositions = ["top", "bottom", "left", "right"];
@@ -82,9 +84,14 @@ function createAntElements() {
     ant.style.position = "absolute";
     ant.style.height = "20px";
     ant.style.width = "20px";
-    // ant.style.borderRadius = "50%";
-    ant.style.backgroundImage = "url('assets/ant.jpg')";
+    ant.style.borderRadius = "50%";
     ant.style.backgroundSize = "20px 20px";
+
+    if (html.classList.contains("dark")) {
+      ant.style.backgroundImage = "url('assets/ant2.jpg')";
+    } else {
+      ant.style.backgroundImage = "url('assets/ant.jpg')";
+    }
 
     let ants = antContainer.appendChild(ant);
     antsInBox.push(ants);
@@ -97,42 +104,45 @@ function createAntElements() {
 createAntElements();
 
 function antClick(event) {
-    const sound = document.querySelector("#audio");
-    sound.play();
-    setTimeout(() => {
-      sound.pause();
-      sound.currentTime = 0;
-    }, 500);
-  
-    event.target.remove();
-    const smashedAntId = event.target.id;
-    smashedAnts.push(smashedAntId);
-  
-    const listItem = document.createElement("li");
-    listItem.innerText = smashedAntId;
-    smashedAntsList.appendChild(listItem);
-  };
+  const sound = document.querySelector("#audio");
+  sound.play();
+  setTimeout(() => {
+    sound.pause();
+    sound.currentTime = 0;
+  }, 350);
 
-  function resetAntGame() {
-    antContainer.innerHTML = "";
-    smashedAntsList.innerHTML = "";
-    antData = [];
-    smashedAnts = [];
-    antsInBox = [];
-    generateRandomAntData();
-    createAntElements();
-  }
+  event.target.remove();
+  const smashedAntId = event.target.id;
+  smashedAnts.push(smashedAntId);
 
-  document.getElementById("refresh").addEventListener("click", resetAntGame);
-  
-  //  Dark Mode Toggle
+  const listItem = document.createElement("li");
+  listItem.innerText = smashedAntId;
+  smashedAntsList.appendChild(listItem);
+}
+
+//  Dark Mode Toggle
 document.getElementById("toggle").addEventListener("change", function () {
-  antsInBox.forEach((ant)=> {
-  if (this.checked) {
-    document.documentElement.classList.add("dark");
-    ant.style.backgroundImage = "url('assets/ant2.jpg')";
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-})
+  antsInBox.forEach((ant) => {
+    if (this.checked) {
+      document.documentElement.classList.add("dark");
+      ant.style.backgroundImage = "url('assets/ant2.jpg')";
+    } else {
+      document.documentElement.classList.remove("dark");
+      ant.style.backgroundImage = "url('assets/ant.jpg')";
+    }
+  });
 });
+
+//  Reset Game
+
+function resetAntGame() {
+  antContainer.innerHTML = "";
+  smashedAntsList.innerHTML = "Smashed Ants";
+  antData = [];
+  smashedAnts = [];
+  antsInBox = [];
+  generateRandomAntData();
+  createAntElements();
+}
+
+document.getElementById("refresh").addEventListener("click", resetAntGame);
