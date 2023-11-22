@@ -13,15 +13,15 @@ function getRandomInt(lowerBound, upperBound) {
 
 let numberOfAnts = getRandomInt(1, 30);
 
-console.log(numberOfAnts);
+// console.log(numberOfAnts);
 
 defaultNumberOfAnts = 5;
 if (numberOfAnts < defaultNumberOfAnts) {
   numberOfAnts = defaultNumberOfAnts;
-  console.log(numberOfAnts);
+  // console.log(numberOfAnts);
 } else {
   numberOfAnts = numberOfAnts;
-  console.log(numberOfAnts);
+  // console.log(numberOfAnts);
 }
 
 //Declarations
@@ -58,7 +58,7 @@ function generateRandomAntData() {
   return antData;
 }
 generateRandomAntData();
-console.log(antData);
+// console.log(antData);
 
 function createAntElements() {
   for (index = 0; index < antData.length; index++) {
@@ -73,8 +73,8 @@ function createAntElements() {
     coordinates.forEach((coordinate) => {
       value = antPosition[coordinate];
       ant.style[coordinate] = `${value}px`;
-      console.log(coordinate);
-      console.log(value);
+      // console.log(coordinate);
+      // console.log(value);
     });
 
     ant.id = `ant${index + 1}`;
@@ -88,7 +88,7 @@ function createAntElements() {
 
     let ants = antContainer.appendChild(ant);
     antsInBox.push(ants);
-    console.log(antsInBox);
+    // console.log(antsInBox);
 
     ant.addEventListener("click", antClick);
   }
@@ -113,6 +113,18 @@ function antClick(event) {
     smashedAntsList.appendChild(listItem);
   };
 
+  function resetAntGame() {
+    antContainer.innerHTML = "";
+    smashedAntsList.innerHTML = "";
+    antData = [];
+    smashedAnts = [];
+    antsInBox = [];
+    generateRandomAntData();
+    createAntElements();
+  }
+
+  document.getElementById("refresh").addEventListener("click", resetAntGame);
+  
   //  Dark Mode Toggle
 document.getElementById("toggle").addEventListener("change", function () {
   if (this.checked) {
