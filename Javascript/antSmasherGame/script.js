@@ -17,19 +17,16 @@ function generateRandomDirection() {
   return Math.floor(Math.random() * 3 + 1);
 }
 
-let numberOfAnts = getRandomInt(1, 50);
-
 function initAnts() {
   const antData = [];
   let numberOfAnts = getRandomInt(1, 50);
+console.log(numberOfAnts);
 
   for (let i = 0; i < numberOfAnts; i++) {
     const x = getRandomInt(0, BOX_SIZE);
     const y = getRandomInt(0, BOX_SIZE);
     const dx = generateRandomDirection();
     const dy = generateRandomDirection();
-
-    // console.log(x, y, dx, dy);
 
     let smashedAntsList = document.getElementById("smashedAntsList");
 
@@ -136,6 +133,39 @@ function resetAntGame(ants) {
   
   document.getElementById("refresh").addEventListener("click", resetAntGame);
   
+  // Save Game
+
+  function saveGameState() {
+    let gameState = {
+        ants,
+        smashedAntsList
+    };
+    localStorage.setItem('savedGameState', JSON.stringify(gameState));
+    console.log("Game state has been saved");
+  }
+
+  document.getElementById("save").addEventListener("click", saveGameState);
+
+  // Restore Saved Game
+
+  function restoreGameState() {
+    let savedState = localStorage.getItem('savedGameState');
+  
+    if (savedState) {
+      let gameState = JSON.parse(savedState);
+      ants = gameState.ants;
+      smashedAntsList = gameState.smashedAntsList;
+  
+      $container.innerHTML = '';
+      smashedAntsList.innerHTML = 'Smashed Ants';
+      moveAnts(ants);
+    }
+  }
+  
+document.addEventListener('DOMContentLoaded', () => {
+    restoreGameState();
+})
+
 function moveAnts(ants){
 setInterval(() => {
   updateAnts(ants);
