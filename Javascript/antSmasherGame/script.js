@@ -21,6 +21,7 @@ let numberOfAnts = getRandomInt(1, 50);
 
 function initAnts() {
   const antData = [];
+  let numberOfAnts = getRandomInt(1, 50);
 
   for (let i = 0; i < numberOfAnts; i++) {
     const x = getRandomInt(0, BOX_SIZE);
