@@ -1,7 +1,7 @@
 let $container = document.getElementById("container");
 $container.classList.add("mx-auto", "cursor-crosshair");
 let BOX_SIZE = 500;
-let ANT_SPEED = 2;
+let ANT_SPEED = 1;
 let ANT_SIZE = 20;
 
 //Random Value Generator
@@ -17,7 +17,8 @@ function generateRandomDirection() {
   return Math.floor(Math.random() * 3 + 1);
 }
 
-let numberOfAnts = getRandomInt(1, 30);
+let numberOfAnts = getRandomInt(1, 50);
+
 function initAnts() {
   const antData = [];
 
@@ -128,9 +129,8 @@ const ants = initAnts();
 function resetAntGame(ants) {
     $container.innerHTML = "";
     smashedAntsList.innerHTML = "Smashed Ants";
-    antData = [];
-    smashedAnts = [];
-    moveAnts(ants);
+    const newAnts = initAnts();
+    moveAnts(newAnts);
   }
   
   document.getElementById("refresh").addEventListener("click", resetAntGame);
