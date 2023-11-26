@@ -1,4 +1,8 @@
-//AST2: Ant Smasher Game
+let $container = document.getElementById("container");
+$container.classList.add("mx-auto", "cursor-crosshair");
+let BOX_SIZE = 500;
+let ANT_SPEED = 2;
+let ANT_SIZE = 20;
 
 //Random Value Generator
 
@@ -9,140 +13,133 @@ function getRandomInt(lowerBound, upperBound) {
   return randomNumber;
 }
 
-//MAIN
+function generateRandomDirection() {
+  return Math.floor(Math.random() * 3 + 1);
+}
 
 let numberOfAnts = getRandomInt(1, 30);
+function initAnts() {
+  const antData = [];
 
-// console.log(numberOfAnts);
+  for (let i = 0; i < numberOfAnts; i++) {
+    const x = getRandomInt(0, BOX_SIZE);
+    const y = getRandomInt(0, BOX_SIZE);
+    const dx = generateRandomDirection();
+    const dy = generateRandomDirection();
 
-defaultNumberOfAnts = 10;
-if (numberOfAnts < defaultNumberOfAnts) {
-  numberOfAnts = defaultNumberOfAnts;
-  // console.log(numberOfAnts);
-} else {
-  numberOfAnts = numberOfAnts;
-  // console.log(numberOfAnts);
-}
+    // console.log(x, y, dx, dy);
 
-//Declarations
+    let smashedAntsList = document.getElementById("smashedAntsList");
 
-let antData = [];
-let antsInBox = [];
-let smashedAnts = [];
+    const element = document.createElement("div");
+    element.id = `ant${i + 1}`;
+    element.classList.add("ant", "absolute", "bg-white", "rounded-full");
+    element.style.width = `${ANT_SIZE}px`;
+    element.style.height = `${ANT_SIZE}px`;
 
-const html = document.documentElement;
-const antContainer = document.getElementById("container");
-let smashedAntsList = document.getElementById("smashedAntsList");
-const possiblePositions = ["top", "bottom", "left", "right"];
+    element.onclick = () => {
+      const sound = document.createElement("audio");
+      sound.src = "./assets/splat.mp3";
+      sound.play();
+      setTimeout(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }, 350);
 
-function getRandomPossiblePositions(possiblePositions) {
-  return possiblePositions[
-    Math.floor(Math.random() * possiblePositions.length)
-  ];
-}
+      let smashedAnt = $container.removeChild(element);
+      antData.splice(antData.indexOf(ant), 1);
 
-function generateRandomAntData() {
-  let positionX, positionY;
-  for (let index = 0; index < numberOfAnts; index++) {
-    do {
-      positionX = getRandomPossiblePositions(possiblePositions);
-      positionY = getRandomPossiblePositions(possiblePositions);
-    } while (positionX === positionY);
+      smashedAntId = smashedAnt.id;
+      const listItem = document.createElement("li");
+      listItem.innerText = smashedAntId;
+      smashedAntsList.appendChild(listItem);
+    };
+    $container.appendChild(element);
 
-    let xCoords = getRandomInt(1, 200);
-    let yCoords = getRandomInt(1, 200);
-
-    antData.push({
-      [positionX]: xCoords,
-      [positionY]: yCoords,
-    });
+    const ant = {
+      x,
+      y,
+      dx,
+      dy,
+      element,
+    };
+    antData.push(ant);
   }
   return antData;
 }
-generateRandomAntData();
-// console.log(antData);
 
-function createAntElements() {
-  for (index = 0; index < antData.length; index++) {
-    let antPosition = antData[index];
-    let coordinates = Object.keys(antPosition);
-    const ant = document.createElement("div");
-
-    // console.log(antPosition);
-    // console.log(coordinates);
-
-    let value;
-    coordinates.forEach((coordinate) => {
-      value = antPosition[coordinate];
-      ant.style[coordinate] = `${value}px`;
-      // console.log(coordinate);
-      // console.log(value);
-    });
-
-    ant.id = `ant${index + 1}`;
-    ant.classList.add("ant");
-    ant.style.position = "absolute";
-    ant.style.height = "20px";
-    ant.style.width = "20px";
-    ant.style.borderRadius = "50%";
-    ant.style.backgroundSize = "20px 20px";
-
-    if (html.classList.contains("dark")) {
-      ant.style.backgroundImage = "url('assets/ant2.jpg')";
-    } else {
-      ant.style.backgroundImage = "url('assets/ant.jpg')";
+function detectAntCollision(ant1, ant2) {
+    if(ant1 === ant2) {
+        return false;
     }
 
-    let ants = antContainer.appendChild(ant);
-    antsInBox.push(ants);
-    // console.log(antsInBox);
+    const xCollision = (ant1.x + ANT_SIZE >= ant2.x) && (ant1.x <= ant2.x + ANT_SIZE);
+    const yCollision = (ant1.y + ANT_SIZE >= ant2.y) && (ant1.y <= ant2.y + ANT_SIZE);
 
-    ant.addEventListener("click", antClick);
-  }
+    return xCollision && yCollision;
 }
-
-createAntElements();
-
-function antClick(event) {
-  const sound = document.querySelector("#audio");
-  sound.play();
-  setTimeout(() => {
-    sound.pause();
-    sound.currentTime = 0;
-  }, 350);
-
-  event.target.remove();
-  const smashedAntId = event.target.id;
-  smashedAnts.push(smashedAntId);
-
-  const listItem = document.createElement("li");
-  listItem.innerText = smashedAntId;
-  smashedAntsList.appendChild(listItem);
-}
-
-//  Dark Mode Toggle
-document.getElementById("toggle").addEventListener("change", function () {
-  antsInBox.forEach((ant) => {
-    if (this.checked) {
-      document.documentElement.classList.add("dark");
-      ant.style.backgroundImage = "url('assets/ant2.jpg')";
-    } else {
-      document.documentElement.classList.remove("dark");
-      ant.style.backgroundImage = "url('assets/ant.jpg')";
-    }
+function plotAnts(ants) {
+  ants.forEach((ant) => {
+    ant.element.style.left = `${ant.x}px`;
+    ant.element.style.top = `${ant.y}px`;
   });
-});
+}
+
+function updateAnts(ants) {
+  ants.forEach((ant) => {
+    ant.x += ant.dx * ANT_SPEED;
+    ant.y += ant.dy * ANT_SPEED;
+
+    if (ant.x < 0) {
+      ant.x = 0;
+      ant.dx = -ant.dx;
+    }
+
+    if (ant.x > BOX_SIZE - ANT_SIZE) {
+      ant.x = BOX_SIZE - ANT_SIZE;
+      ant.dx = -ant.dx;
+    }
+
+    if (ant.y < 0) {
+      ant.y = 0;
+      ant.dy = -ant.dy;
+    }
+
+    if (ant.y > BOX_SIZE - ANT_SIZE) {
+      ant.y = BOX_SIZE - ANT_SIZE;
+      ant.dy = -ant.dy;
+    }
+
+    ants.forEach(targetAnt => {
+        const collided = detectAntCollision(ant, targetAnt)
+        if(collided) {
+            ant.dx = -ant.dx;
+            ant.dy = -ant.dy;
+            targetAnt.dx = -targetAnt.dx;
+            targetAnt.dy = -targetAnt.dy;
+        }
+    })
+  });
+}
+const ants = initAnts();
 
 //  Reset Game
 
-function resetAntGame() {
-  antContainer.innerHTML = "";
-  smashedAntsList.innerHTML = "Smashed Ants";
-  antData = [];
-  smashedAnts = [];
-  antsInBox = [];
-  generateRandomAntData();
-  createAntElements();
+function resetAntGame(ants) {
+    $container.innerHTML = "";
+    smashedAntsList.innerHTML = "Smashed Ants";
+    antData = [];
+    smashedAnts = [];
+    moveAnts(ants);
+  }
+  
+  document.getElementById("refresh").addEventListener("click", resetAntGame);
+  
+function moveAnts(ants){
+setInterval(() => {
+  updateAnts(ants);
+  plotAnts(ants);
+}, 60);
 }
 
-document.getElementById("refresh").addEventListener("click", resetAntGame);
+moveAnts(ants);

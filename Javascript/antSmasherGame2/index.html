@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ant Smasher</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body class="bg-sky-300 dark:bg-slate-900">
+    <h1
+      class="text-red-600 text-3xl dark:text-white bg-slate-400 dark:bg-slate-700 py-2 flex justify-center"
+    >
+      Ant Smasher
+    </h1>
+
+    <div
+      class="relative inline-block w-10 mx-auto align-middle select-none transition duration-200 ease-in"
+    >
+      <input
+        type="checkbox"
+        name="toggle"
+        id="toggle"
+        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+      />
+      <label
+        for="toggle"
+        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"
+      ></label>
+    </div>
+    <label for="toggle" class="text-xs text-gray-700 dark:text-white"
+      >Dark Mode</label
+    >
+
+    <!-- Wrapper -->
+    <div class="wrapper flex flex-col items-center">
+      <div
+        id="container"
+        class="relative block h-96 w-96 bg-white dark:bg-[#292728] my-5 mx-auto border-2 border-red-600 dark:border-white cursor-crosshair"
+      ></div>
+      <audio id="audio" src="./assets/splat.mp3"></audio>
+      <div>
+        <button
+          type="button"
+          id="refresh"
+          class="bg-slate-400 px-3 py-2 rounded-lg border-1 hover:bg-slate-800 hover:text-white active:bg-orange-950 active:text-yellow-400"
+        >
+          Reset
+        </button>
+      </div>
+      <ul id="smashedAntsList" class="mt-2 text-red-700 dark:text-white">
+        Smashed Ants
+      </ul>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
