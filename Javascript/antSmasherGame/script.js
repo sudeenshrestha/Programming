@@ -3,6 +3,7 @@ $container.classList.add("mx-auto", "cursor-crosshair");
 let BOX_SIZE = 500;
 let ANT_SPEED = 1;
 let ANT_SIZE = 20;
+let antData = [];
 
 //Random Value Generator
 
@@ -18,9 +19,9 @@ function generateRandomDirection() {
 }
 
 function initAnts() {
-  const antData = [];
+  
   let numberOfAnts = getRandomInt(1, 50);
-  console.log(numberOfAnts);
+  console.log("No. of ants:", numberOfAnts);
 
   for (let i = 0; i < numberOfAnts; i++) {
     const x = getRandomInt(0, BOX_SIZE);
@@ -55,7 +56,6 @@ function initAnts() {
       listItem.innerText = smashedAntId;
       smashedAntsList.appendChild(listItem);
     };
-    $container.appendChild(element);
 
     const ant = {
       x,
@@ -64,7 +64,10 @@ function initAnts() {
       dy,
       element,
     };
+
     antData.push(ant);
+    $container.appendChild(element);
+
   }
   return antData;
 }
@@ -79,10 +82,13 @@ function detectAntCollision(ant1, ant2) {
 
   return xCollision && yCollision;
 }
+
 function plotAnts(ants) {
   ants.forEach((ant) => {
-    ant.element.style.left = `${ant.x}px`;
-    ant.element.style.top = `${ant.y}px`;
+    if (ant && ant.element) {
+      ant.element.style.left = `${ant.x}px`;
+      ant.element.style.top = `${ant.y}px`;
+    }
   });
 }
 
@@ -122,15 +128,19 @@ function updateAnts(ants) {
     });
   });
 }
-const ants = initAnts();
 
+let ants = initAnts();
+
+console.log(ants);
 //  Reset Game
 
-function resetAntGame(ants) {
+function resetAntGame() {
   $container.innerHTML = "";
   smashedAnt = "";
   smashedAntsList.innerHTML = "Smashed Ants";
+  antData = [];
   const newAnts = initAnts();
+  console.log(newAnts);
   moveAnts(newAnts);
 }
 
@@ -142,9 +152,9 @@ function saveGameState() {
   let gameState = {
     ants,
     smashedAntsList,
-    $container,
   };
   localStorage.setItem("savedGameState", JSON.stringify(gameState));
+  console.log(gameState, ants, smashedAntsList);
   alert("Game state has been saved");
 }
 
@@ -154,14 +164,15 @@ document.getElementById("save").addEventListener("click", saveGameState);
 
 function restoreGameState() {
   const savedState = localStorage.getItem("savedGameState");
+  console.log(savedState);
 
   if (savedState) {
     const gameState = JSON.parse(savedState);
     const restoredAnts = gameState.ants || [];
     smashedAntsList = gameState.smashedAntsList;
-    smashedAntsList.innerHTML = "Smashed Ants";
+    // smashedAntsList.innerHTML = "Smashed Ants";
     plotAnts(restoredAnts);
-  }else{
+  } else {
     const ants = initAnts();
     moveAnts(ants);
   }
@@ -169,18 +180,18 @@ function restoreGameState() {
 
 document.getElementById("load").addEventListener("click", restoreGameState);
 
+function gameOver() {
+  if (ants.length === 0) {
+    $container.classList.add("text-4xl", "text-center", "m-auto", "text-red");
+    $container.innerHTML = "Game Over!";
+    return $container;
+  }
+}
 
 function moveAnts(ants) {
   setInterval(() => {
     updateAnts(ants);
     plotAnts(ants);
-
-    function gameOver() {
-    if (ants.length === 0) {
-      $container.classList.add('text-4xl','text-center','m-auto', 'text-red')
-      $container.innerHTML = "Game Over!";
-      return $container;
-    }};
   }, 60);
 }
 
@@ -189,4 +200,3 @@ function moveAnts(ants) {
 // });
 
 moveAnts(ants);
-
