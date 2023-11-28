@@ -207,10 +207,12 @@ function gameLoop() {
     function gameOver() {
       if (ants.length === 0) {
         $container.classList.add(
+          "flex",
+          "items-center",
+          "justify-center",
           "text-4xl",
-          "text-center",
-          "m-auto",
-          "text-red"
+          "text-red-700",
+          "dark:text-white"
         );
         $container.innerHTML = "Game Over!";
         return $container;
