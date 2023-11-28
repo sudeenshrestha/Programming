@@ -18,16 +18,11 @@ function generateRandomDirection() {
   return Math.floor(Math.random() * 3 + 1);
 }
 
-function initAnts() {
-  
-  let numberOfAnts = getRandomInt(1, 50);
-  console.log("No. of ants:", numberOfAnts);
+function initAnts(rawAntData) {
+  const antData = [];
 
-  for (let i = 0; i < numberOfAnts; i++) {
-    const x = getRandomInt(0, BOX_SIZE);
-    const y = getRandomInt(0, BOX_SIZE);
-    const dx = generateRandomDirection();
-    const dy = generateRandomDirection();
+  for (let i = 0; i < rawAntData.length; i++) {
+    const { x, y, dx, dy } = rawAntData[i];
 
     const element = document.createElement("div");
     element.id = `ant${i + 1}`;
@@ -56,6 +51,7 @@ function initAnts() {
       listItem.innerText = smashedAntId;
       smashedAntsList.appendChild(listItem);
     };
+    $container.appendChild(element);
 
     const ant = {
       x,
@@ -66,8 +62,6 @@ function initAnts() {
     };
 
     antData.push(ant);
-    $container.appendChild(element);
-
   }
   return antData;
 }
@@ -85,10 +79,9 @@ function detectAntCollision(ant1, ant2) {
 
 function plotAnts(ants) {
   ants.forEach((ant) => {
-    if (ant && ant.element) {
-      ant.element.style.left = `${ant.x}px`;
-      ant.element.style.top = `${ant.y}px`;
-    }
+    // if (ant && ant.element) {
+    ant.element.style.left = `${ant.x}px`;
+    ant.element.style.top = `${ant.y}px`;
   });
 }
 
@@ -129,22 +122,28 @@ function updateAnts(ants) {
   });
 }
 
-let ants = initAnts();
+//  Dark Mode Toggle
+document.getElementById("toggle").addEventListener("change", function () {
+  ants.forEach((ant) => {
+    if (this.checked) {
+      document.documentElement.classList.add("dark");
+      ant.element.style.backgroundImage = "url('assets/ant2.jpg')";
+    } else {
+      document.documentElement.classList.remove("dark");
+      ant.element.style.backgroundImage = "url('assets/ant.jpg')";
+    }
+  });
+});
 
-console.log(ants);
 //  Reset Game
 
-function resetAntGame() {
+function resetAntGame(rawAntData) {
   $container.innerHTML = "";
   smashedAnt = "";
   smashedAntsList.innerHTML = "Smashed Ants";
-  antData = [];
-  const newAnts = initAnts();
-  console.log(newAnts);
-  moveAnts(newAnts);
+  ants = initAnts(rawAntData);
+  // moveAnts(newAnts);
 }
-
-document.getElementById("refresh").addEventListener("click", resetAntGame);
 
 // Save Game
 
@@ -155,48 +154,80 @@ function saveGameState() {
   };
   localStorage.setItem("savedGameState", JSON.stringify(gameState));
   console.log(gameState, ants, smashedAntsList);
-  alert("Game state has been saved");
+  alert("Game state has been saved", ants.length);
 }
-
-document.getElementById("save").addEventListener("click", saveGameState);
 
 // Restore Saved Game
 
 function restoreGameState() {
   const savedState = localStorage.getItem("savedGameState");
-  console.log(savedState);
 
-  if (savedState) {
-    const gameState = JSON.parse(savedState);
-    const restoredAnts = gameState.ants || [];
-    smashedAntsList = gameState.smashedAntsList;
-    // smashedAntsList.innerHTML = "Smashed Ants";
-    plotAnts(restoredAnts);
-  } else {
-    const ants = initAnts();
-    moveAnts(ants);
+  if (!savedState) {
+    return;
   }
+  const gameState = JSON.parse(savedState);
+  const restoredAnts = gameState.ants || [];
+  smashedAntsList = gameState.smashedAntsList;
+  smashedAntsList.innerHTML = "Smashed Ants";
+
+  const restoredRawAntData = restoredAnts.map((ant) => ({
+    x: ant.x,
+    y: ant.y,
+    dx: ant.dx,
+    dy: ant.dy,
+  }));
+
+  resetAntGame(restoredRawAntData);
 }
 
-document.getElementById("load").addEventListener("click", restoreGameState);
-
-function gameOver() {
-  if (ants.length === 0) {
-    $container.classList.add("text-4xl", "text-center", "m-auto", "text-red");
-    $container.innerHTML = "Game Over!";
-    return $container;
+function generateRandomAntsRawData() {
+  const rawAntData = [];
+  let numberOfAnts = getRandomInt(1, 50);
+  console.log("No. of ants: ", numberOfAnts);
+  for (let i = 0; i < numberOfAnts; i++) {
+    const x = getRandomInt(0, BOX_SIZE);
+    const y = getRandomInt(0, BOX_SIZE);
+    const dx = generateRandomDirection();
+    const dy = generateRandomDirection();
+    rawAntData.push({
+      x,
+      y,
+      dx,
+      dy,
+    });
   }
+  return rawAntData;
 }
 
-function moveAnts(ants) {
+function gameLoop() {
   setInterval(() => {
     updateAnts(ants);
     plotAnts(ants);
+    gameOver();
+    function gameOver() {
+      if (ants.length === 0) {
+        $container.classList.add(
+          "text-4xl",
+          "text-center",
+          "m-auto",
+          "text-red"
+        );
+        $container.innerHTML = "Game Over!";
+        return $container;
+      }
+    }
   }, 60);
 }
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   restoreGameState();
-// });
+const rawAntData = generateRandomAntsRawData();
+ants = initAnts(rawAntData);
 
-moveAnts(ants);
+gameLoop(ants);
+
+document.getElementById("refresh").addEventListener("click", () => {
+  const rawAntData = generateRandomAntsRawData();
+  resetAntGame(rawAntData);
+});
+
+document.getElementById("save").addEventListener("click", saveGameState);
+document.getElementById("load").addEventListener("click", restoreGameState);

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .toggle-checkbox:checked {
+.toggle-checkbox:checked {
     @apply: right-0 border-green-900;
     right: 0;
     border-color: grey;
@@ -10,7 +10,7 @@
   .toggle-checkbox:checked + .toggle-label {
     @apply: bg-slate-800;
     background-color: grey;
-  } */
+  }
 
   /* #container {
     background-color : red;
