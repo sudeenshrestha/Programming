@@ -1,0 +1,98 @@
+body{
+    background-color: #1a1a1a;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1{
+    color: #333;
+    text-align: center;
+}
+
+p{
+    color: #555;
+    line-height: 1.6;
+    text-align: center;
+}
+
+#wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#refresh{
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#refresh:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#container{
+    width: 500px;
+    height: 500px;
+    background-color: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#shooter {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 20px;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    transition: left 0.1s ease;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('../assets/img/shooter1.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.ball {
+    transition: transform 0.2s ease;
+    z-index: 5;
+}
+
+.ball:hover {
+    transform: scale(1.1);
+}
+
+.projectile {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+#score {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+}
